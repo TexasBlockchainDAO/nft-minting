@@ -11,6 +11,7 @@ This minting site functions as a general-purpose interface for minting ERC721 co
 - [ ] Clean up and finish designs
 
 ### Back-End Timeline
+*Check Mint.sol, then branches for current progress*
 - [ ] Fork ERC721
 - [ ] Build functions for customized minting
 - [ ] Clean up/utility functions
