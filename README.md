@@ -15,3 +15,6 @@ This minting site functions as a general-purpose interface for minting ERC721 co
 - [ ] Build functions for customized minting
 - [ ] Clean up/utility functions
 
+### Figma Website
+https://www.figma.com/file/d2pnqaX3ke2FNiOqhqaORv/Untitled?t=qdmsTJXOub9UFKwz-1
+- [ ] dm @zachvazz on discord with your email if you wanna edit. I don't have a way to send an editable link.
