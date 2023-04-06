@@ -1,0 +1,131 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Style the main app container */
+.App {
+  font-family: 'Arial', sans-serif;
+  background-image: linear-gradient(135deg, #6e27c5, #00a0e9);
+  padding: 2rem;
+  min-height: 100vh; /* Add this line */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.NFTContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 3rem auto;
+  padding: 1rem;
+  max-width: 1200px;
+}
+
+.gallery-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-top: 2rem; /* adjust the padding-top value as desired */
+}
+
+
+.nft-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+
+/* Style the title */
+h1 {
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 1rem;
+  padding: 10px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  animation: float 3s ease-in-out infinite; /* Change the animation name to 'float' */
+}
+
+
+
+/* Style the mint button */
+.mint-button {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mint-button:hover {
+  background-color: #45a049;
+}
+
+.SearchBar {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.nft-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+  justify-items: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+
+.NFTCard {
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+.NFTCard.visible {
+  opacity: 1;
+}
+
+
+
+.mint-button-wrapper,
+.search-bar-wrapper {
+  margin-bottom: 1rem;
+}
