@@ -1,0 +1,105 @@
+import axios from 'axios';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useContext } from "react";
+
+import { FactoryContext } from "../Context/Context";
+
+const MintButton = ({ onMint }) => {
+    console.log("context: ", FactoryContext);
+  
+    console.log("useContext(context): ", useContext(FactoryContext));
+
+    const [fileImg, setFileImg] = useState(null);
+    const [name, setName] = useState("")
+    const [desc, setDesc] = useState("")
+
+    // const { factoryContract, currentAccount } = useContext(FactoryContext)
+
+    const sendJSONtoIPFS = async (ImgHash) => {
+
+        try {
+
+            const resJSON = await axios({
+                method: "post",
+                url: "https://api.pinata.cloud/pinning/pinJsonToIPFS",
+                data: {
+                    "name": name,
+                    "description": desc,
+                    "image": ImgHash
+                },
+                headers: {
+                    'pinata_api_key': `${process.env.API_KEY}`,
+                    'pinata_secret_api_key': `${process.env.API_SECRET}`,
+                },
+            });
+
+            console.log("final ", `ipfs://${resJSON.data.IpfsHash}`)
+            const tokenURI = `ipfs://${resJSON.data.IpfsHash}`;
+            console.log("Token URI", tokenURI);
+            mintNFT(tokenURI)   // pass the winner
+
+        } catch (error) {
+            console.log("JSON to IPFS: ")
+            console.log(error);
+        }
+
+
+    }
+
+    const sendFileToIPFS = async (e) => {
+
+
+        if (fileImg) {
+            try {
+
+                const formData = new FormData();
+                formData.append("file", fileImg);
+
+               const resFile = await axios({
+                    method: "post",
+                    url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                    data: formData,
+                    headers: {
+                        'pinata_api_key': `${process.env.API_KEY}`,
+                        'pinata_secret_api_key': `${process.env.API_SECRET}`,
+                        "Content-Type": "multipart/form-data"
+                    },
+                });
+                const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+             
+                console.log(ImgHash);
+             sendJSONtoIPFS(ImgHash)
+
+
+            } catch (error) {
+                console.log("Error sending File to IPFS: ")
+                console.log(error)
+            }
+        }
+    }
+
+    const mintNFT = async (tokenURI) => {
+/*
+
+        try {
+            await factoryContract.openCollection(tokenURI);
+
+        } catch (error) {
+            console.log("Error while minting NFT with contract")
+            console.log(error);
+        }
+        */
+    }
+
+  return (
+    <form onSubmit={sendFileToIPFS}>
+    <input type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
+    <input type="text" onChange={(e) => setName(e.target.value)} placeholder='name' required value={name} />
+    <input type="text" onChange={(e) => setDesc(e.target.value)} placeholder="desc" required value={desc} />
+    <button type='submit' >Mint NFT</button>            
+    </form>
+  );
+};
+
+export default MintButton;
