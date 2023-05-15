@@ -71,6 +71,7 @@ h1 {
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+  align-items: center;
 }
 
 .mint-button:hover {
