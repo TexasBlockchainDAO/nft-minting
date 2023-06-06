@@ -375,49 +375,43 @@ const MintButton = ({ onMint }) => {
       contract = new ethers.Contract(ADDRESS, ABI, signer);
     })
 
-  const handleMint = async (e) => {
-    console.log('Minting NFT...');
-    // Add your minting logic here
-
-      const type = fileImg["type"];
-      const image = new File([fileImg], name, { type });
-
-      const response = await storeNFT(
-          image,
-          name,
-          description,
-      );
-
-      console.log(response);
+    const handleMint = async (e) => {
+      e.preventDefault();
+      console.log('Minting NFT...');
+  
+      const metadata = await storeNFT(fileImg, name, description);
+  
+      console.log(metadata);
       console.log("Loading");
-
-      await mint(response["url"]);
-
+  
+      // Assume the current account is the one to receive the minted token
+      const currentAccount = await signer.getAddress();
+      await mint(currentAccount, metadata.url);
   };
 
-  async function storeNFT(image, name, description) {
-      
-      const nftStorage = new NFTStorage({ token: key });
-      return nftStorage.store({
-          image,
-          name,
-          description
-      })
+  async function storeNFT(file, name, description) {
+    const nftStorage = new NFTStorage({ token: key });
+    const metadata = await nftStorage.store({
+        name,
+        description,
+        image: file
+    });
+
+    return metadata;
   }
 
-  async function mint(hash) {
-      var mintPromise = contract.mint(hash, signer);
-      await mintPromise;
+  async function mint(to, tokenUri) {
+    await contract.mint(to, tokenUri);
   }
 
-    return (
-    <form onSubmit={onMint}>
+  return (
+    <form onSubmit={handleMint}>
     <input type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
     <input type="text" onChange={(e) => setName(e.target.value)} placeholder='name' required value={name} />
     <input type="text" onChange={(e) => setDesc(e.target.value)} placeholder="description" required value={description} />
-    <button className="mint-button" onClick={() => handleMint}>Mint NFT</button>
+    <button type="submit" className="mint-button">Mint NFT</button>
     </form>
-  );
+);
     /*
   return (
     <button className="mint-button" onClick={onMint}>
