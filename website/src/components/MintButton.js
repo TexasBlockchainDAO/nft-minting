@@ -368,7 +368,8 @@ const MintButton = ({ onMint }) => {
     window.ethereum.enable()
     // const web3 = new Web3(window.web3.currentProvider);
     // var provider = new ethers.providers.Web3Provider(web3.currentProvider, 'sepolia');
-    var provider = new ethers.providers.Web3Provider(window.web3.currentProvider, 'sepolia');
+    // var provider = new ethers.providers.Web3Provider(window.web3.currentProvider, 'sepolia');
+    var provider = new ethers.providers.Web3Provider(window.web3.currentProvider);
 
     provider.listAccounts().then(function (accounts) {
       signer = provider.getSigner(accounts[0]);
